@@ -1,15 +1,21 @@
 package com.openclassrooms.store;
 
-public class Screen {
+public class Screen extends Item {
 
-    public String brand;
-    public double price;
-    public String resolution;
+    protected final String resolution;
 
-    public Screen(String a, double b, String c) {
-        this.brand = a;
-        this.price = b;
-        this.resolution = c;
+    public Screen(BrandEnum brand, double price, String resolution) {
+        super(brand, price);
+        this.resolution = resolution;
     }
 
+    @Override
+    String getType() {
+        return "Screen";
+    }
+
+    @Override
+    public String getCaracteristics() {
+        return super.getCaracteristics() + " - Resolution: " + resolution + "\n";
+    }
 }

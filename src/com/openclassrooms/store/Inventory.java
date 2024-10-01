@@ -1,32 +1,47 @@
 package com.openclassrooms.store;
 
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Inventory {
 
-    public Screen[] screens;
-    public Mouse[] mice;
+    private final Map<Item, Integer> items;
 
     public Inventory() {
-        screens = new Screen[10];
-        mice = new Mouse[10];
+        items = new HashMap<>();
     }
 
-    public void addScreen(Screen a) {
-        for(int i = 0; i< screens.length; i++) {
-            if(screens[i] == null) {
-               screens[i] = a;
-               break;
-            }
+    public void add(Item inventoryItem, int quantity) {
+        int newQuantity = quantity;
+        if (items.containsKey(inventoryItem)) {
+            newQuantity += items.get(inventoryItem);
+        }
+        items.put(inventoryItem, newQuantity);
+    }
+
+    public void remove(Item inventoryItem, int quantity) {
+        int newQuantity = -quantity;
+        if (!items.containsKey(inventoryItem)) {
+            return;
+        }
+        
+        newQuantity += items.get(inventoryItem);
+
+        if (newQuantity <= 0) {
+            items.remove(inventoryItem);
+        } else {
+            items.put(inventoryItem, newQuantity);
         }
     }
 
-    public void addMouse(Mouse a) {
-        for(int i = 0; i< mice.length; i++) {
-            if(mice[i] == null) {
-                mice[i] = a;
-                break;
-            }
+    public String toString() {
+        String result = "Store Inventory:\n\n";
+        for (Map.Entry<Item, Integer> entry : items.entrySet()) {
+            result += entry.getKey() + ": " + entry.getValue() + "x " + "\n";
+            result += entry.getKey().getCaracteristics() + "\n";
         }
+        return result;
     }
-
 
 }
